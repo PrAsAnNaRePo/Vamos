@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 from collections import OrderedDict
 from typing import Callable, Optional
-from transformers import CLIPProcessor, CLIPModel, AutoModelForCausalLM, PreTrainedModel, PretrainedConfig, LlamaModel
+from transformers import CLIPModel, AutoModelForCausalLM, PreTrainedModel, PretrainedConfig, LlamaModel
 
 class VamosConfig(PretrainedConfig):
     model_type = "vamos"
@@ -221,7 +221,6 @@ class Vamos(PreTrainedModel):
     def __init__(self, config: VamosConfig):
         super().__init__(config)
         self.clip = CLIPModel.from_pretrained(config.clip_id)
-        self.processor = CLIPProcessor.from_pretrained(config.clip_id)
         self.llm = AutoModelForCausalLM.from_pretrained(config.llm_id)
         self.projection = Projector(
             self.clip.config.vision_config.hidden_size,

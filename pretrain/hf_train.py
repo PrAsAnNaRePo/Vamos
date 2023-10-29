@@ -8,7 +8,7 @@ from hf_model import VamosConfig, Vamos
 from deepspeed import zero
 from deepspeed.runtime.zero.partition_parameters import ZeroParamStatus
 import transformers
-from transformers import Trainer, deepspeed
+from transformers import Trainer, deepspeed, CLIPProcessor, AutoTokenizer
 from transformers.trainer_pt_utils import LabelSmoother
 from accelerate.utils import DistributedType
 
@@ -119,15 +119,22 @@ def train():
     config = VamosConfig(
         **model_args.__dict__,
     )
+    processor = CLIPProcessor.from_pretrained(config.clip_id)
+    tokenizer = AutoTokenizer.from_pretrained(config.llm_id)
+    tokenizer.add_special_tokens({"additional_special_tokens": ["<img>", "</img>"]})
+    
     model = Vamos(config=config)
+    model.llm.resize_token_embeddings(len(tokenizer))
+
     train_set = LLavaDataset(
-        model.processor,
-        model.tokenizer,
+        processor,
+        tokenizer,
         **data_args.__dict__,
     )
+
     eval_set = LLavaDataset(
-        model.processor,
-        model.tokenizer,
+        processor,
+        tokenizer,
         **data_args.__dict__,
         split='validation'
     )
