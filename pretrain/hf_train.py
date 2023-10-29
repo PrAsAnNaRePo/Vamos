@@ -55,7 +55,7 @@ def rank0_print(*args):
     if local_rank == 0:
         print(*args)
 
-def safe_save_model_for_hf_trainer(trainer: transformers.Trainer, output_dir: str, bias="none"):
+def safe_save_model_for_hf_trainer(trainer: transformers.Trainer, output_dir: str):
     """Collects the state dict and dump to disk."""
     # check if zero3 mode enabled
     if deepspeed.is_deepspeed_zero3_enabled():
