@@ -17,5 +17,4 @@ torchrun --nproc_per_node 4 --nnodes 1 --node_rank 0 --master_addr localhost --m
     --lr_scheduler_type "cosine" \
     --logging_steps 1 \
     --report_to "wandb" \
-    --resume_from_checkpoint True \
     --deepspeed pretrain/zero2.json
