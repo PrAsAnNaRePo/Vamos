@@ -216,7 +216,7 @@ class VamosPreTrainedModel(PreTrainedModel):
         return
 
     def _set_gradient_checkpointing(self, module, value=False):
-        if isinstance(module, LlamaModel):
+        if isinstance(module, self.llm.__class__):
             module.gradient_checkpointing = value
 
 class Vamos(PreTrainedModel):
