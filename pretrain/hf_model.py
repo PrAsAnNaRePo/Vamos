@@ -14,6 +14,7 @@ class VamosConfig(PretrainedConfig):
                  clip_id: str = 'openai/clip-vit-large-patch14-336',
                  projector_layers: int = 8,
                  projector_heads: int = 16,
+                 img_start_token: int = None,
                  **kwargs
                  ):
         super().__init__()
@@ -21,6 +22,7 @@ class VamosConfig(PretrainedConfig):
         self.clip_id = clip_id
         self.projector_layers = projector_layers
         self.projector_heads = projector_heads
+        self.img_start_token = img_start_token
         super().__init__(**kwargs)
 
 
@@ -292,7 +294,7 @@ class Vamos(PreTrainedModel):
         if image is not None:
             image_embeds = self.encode_image(image)
             bsz, num_imgs, _, _ = image_embeds.size()
-            img_start_pos = torch.where(input_ids == self.img_start_token)[-1].reshape(bsz, num_imgs)
+            img_start_pos = torch.where(input_ids == self.config.img_start_token)[-1].reshape(bsz, num_imgs)
 
         input_embeds = self.get_llm_embeds(input_ids)
         if image is not None:
@@ -322,7 +324,7 @@ class Vamos(PreTrainedModel):
         if image is not None:
             image_embeds = self.encode_image(image)
             bsz, num_imgs, _, _ = image_embeds.size()
-            img_start_pos = torch.where(input_ids == self.img_start_token)[-1].reshape(bsz, num_imgs)
+            img_start_pos = torch.where(input_ids == self.config.img_start_token)[-1].reshape(bsz, num_imgs)
             
         input_embeds = self.get_llm_embeds(input_ids)
         if image is not None:

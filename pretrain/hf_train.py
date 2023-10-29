@@ -122,7 +122,7 @@ def train():
     processor = CLIPProcessor.from_pretrained(config.clip_id)
     tokenizer = AutoTokenizer.from_pretrained(config.llm_id)
     tokenizer.add_special_tokens({"additional_special_tokens": ["<img>", "</img>"]})
-    
+    config.img_start_token = tokenizer.convert_tokens_to_ids("<img>")
     model = Vamos(config=config)
     model.llm.resize_token_embeddings(len(tokenizer))
 
