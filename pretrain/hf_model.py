@@ -294,7 +294,7 @@ class Vamos(PreTrainedModel):
         if image is not None:
             image_embeds = self.encode_image(image)
             bsz, num_imgs, _, _ = image_embeds.size()
-            img_start_pos = torch.where(input_ids == self.config.img_start_token)[-1].reshape(bsz, num_imgs)
+            img_start_pos = torch.where(input_ids == self.config.img_start_token)[-1].reshape(-1, num_imgs)
 
         input_embeds = self.get_llm_embeds(input_ids)
         if image is not None:
