@@ -19,7 +19,7 @@ class LLavaDataset(Dataset):
     def __getitem__(self, index):
         instruction = self.dataset[index]["instruction"]
         outputs = self.dataset[index]["outputs"]
-        conv = f"<|system|>\n{instruction}\n<|user|>\n<img></img>\n<|assistant|>\n{outputs}{self.tokenizer.eos_token}"
+        conv = f"<|im_start|>system\n{instruction}<|im_end|>\n<|im_start|>user\n<img></img><|im_end|>\n<|im_start|>assistant\n{outputs}<|im_start|>"
         conv = self.tokenizer(conv, max_length=self.max_len, padding="max_length", truncation=True, return_tensors="pt")
         image_base64_str_list = self.dataset[index]["image_base64_str"]
         img = Image.open(BytesIO(b64decode(image_base64_str_list[0]))).convert('RGB')
