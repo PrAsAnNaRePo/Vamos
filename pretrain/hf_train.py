@@ -16,8 +16,8 @@ IGNORE_TOKEN_ID = LabelSmoother.ignore_index
 
 @dataclass
 class ModelArguments:
-    llm_id: Optional[str] = field(default="EleutherAI/pythia-410m")
-    clip_id: Optional[str] = field(default="openai/clip-vit-large-patch14")
+    llm_id: Optional[str] = field(default="NousResearch/Nous-Capybara-3B-V1.9")
+    clip_id: Optional[str] = field(default="openai/clip-vit-large-patch14-336")
     projector_layers: Optional[int] = field(default=8)
     projector_heads: Optional[int] = field(default=16)
 
@@ -120,12 +120,12 @@ def train():
         **model_args.__dict__,
     )
     processor = CLIPProcessor.from_pretrained(config.clip_id)
-    tokenizer = AutoTokenizer.from_pretrained(config.llm_id)
+    tokenizer = AutoTokenizer.from_pretrained(config.llm_id, trust_remote_code=True)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.add_special_tokens({"additional_special_tokens": ["<img>", "</img>"]})
     config.img_start_token = tokenizer.convert_tokens_to_ids("<img>")
-    model = Vamos(config=config)
+    model = Vamos(config=config, pad_token_id=tokenizer.pad_token_id)
     model.llm.resize_token_embeddings(len(tokenizer))
 
     train_set = LLavaDataset(

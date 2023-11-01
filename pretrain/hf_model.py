@@ -10,7 +10,7 @@ class VamosConfig(PretrainedConfig):
     is_composition = True
 
     def __init__(self,
-                 llm_id: str = 'HuggingFaceH4/zephyr-7b-beta',
+                 llm_id: str = 'NousResearch/Nous-Capybara-3B-V1.9',
                  clip_id: str = 'openai/clip-vit-large-patch14-336',
                  projector_layers: int = 8,
                  projector_heads: int = 16,
@@ -220,18 +220,18 @@ class VamosPreTrainedModel(PreTrainedModel):
             module.gradient_checkpointing = value
 
 class Vamos(PreTrainedModel):
-    def __init__(self, config: VamosConfig):
+    def __init__(self, config: VamosConfig, pad_token_id: int = None):
         super().__init__(config)
         self.clip = CLIPModel.from_pretrained(config.clip_id)
-        self.llm = AutoModelForCausalLM.from_pretrained(config.llm_id)
+        self.llm = AutoModelForCausalLM.from_pretrained('base_ckpt', trust_remote_code=True)
         self.projection = Projector(
             self.clip.config.vision_config.hidden_size,
             layers=config.projector_layers,
             heads=config.projector_heads,
             out_dim=self.llm.config.hidden_size
         )
-        self.pad_token_id = self.llm.config.pad_token_id
-
+        self.pad_token_id = pad_token_id
+        
     def get_llm_embeds(self, tokens):
         return self.llm.get_input_embeddings()(tokens)
 
