@@ -2,13 +2,15 @@ git lfs install
 git clone https://huggingface.co/NousResearch/Nous-Capybara-3B-V1.9
 
 mkdir base_ckpt
-cp /content/Nous-Capybara-3B-V1.9/model-00001-of-00003.safetensors ckpt/
-cp /content/Nous-Capybara-3B-V1.9/model-00002-of-00003.safetensors ckpt/
-cp /content/Nous-Capybara-3B-V1.9/model-00003-of-00003.safetensors ckpt/
-cp /content/Nous-Capybara-3B-V1.9/config.json ckpt/
-cp /content/Nous-Capybara-3B-V1.9/configuration_stablelm_epoch.py ckpt/
-cp /content/Nous-Capybara-3B-V1.9/modeling_stablelm_epoch.py ckpt/
-cp /content/Nous-Capybara-3B-V1.9/model.safetensors.index.json ckpt/
+cp Nous-Capybara-3B-V1.9/model-00001-of-00003.safetensors base_ckpt/
+cp Nous-Capybara-3B-V1.9/model-00002-of-00003.safetensors base_ckpt/
+cp Nous-Capybara-3B-V1.9/model-00003-of-00003.safetensors base_ckpt/
+cp Nous-Capybara-3B-V1.9/config.json base_ckpt/
+cp Nous-Capybara-3B-V1.9/configuration_stablelm_epoch.py base_ckpt/
+cp Nous-Capybara-3B-V1.9/modeling_stablelm_epoch.py base_ckpt/
+cp Nous-Capybara-3B-V1.9/model.safetensors.index.json base_ckpt/
+
+rm -r Nous-Capybara-3B-V1.9
 
 torchrun --nproc_per_node 6 --nnodes 1 --node_rank 0 --master_addr localhost --master_port 6001 pretrain/hf_train.py \
     --bf16 True \
