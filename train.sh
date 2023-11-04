@@ -2,13 +2,13 @@ git lfs install
 git clone https://huggingface.co/NousResearch/Nous-Capybara-3B-V1.9
 
 mkdir base_ckpt
-cp Nous-Capybara-3B-V1.9/model-00001-of-00003.safetensors base_ckpt/
-cp Nous-Capybara-3B-V1.9/model-00002-of-00003.safetensors base_ckpt/
-cp Nous-Capybara-3B-V1.9/model-00003-of-00003.safetensors base_ckpt/
-cp Nous-Capybara-3B-V1.9/config.json base_ckpt/
-cp Nous-Capybara-3B-V1.9/configuration_stablelm_epoch.py base_ckpt/
-cp Nous-Capybara-3B-V1.9/modeling_stablelm_epoch.py base_ckpt/
-cp Nous-Capybara-3B-V1.9/model.safetensors.index.json base_ckpt/
+mv Nous-Capybara-3B-V1.9/model-00001-of-00003.safetensors base_ckpt/
+mv Nous-Capybara-3B-V1.9/model-00002-of-00003.safetensors base_ckpt/
+mv Nous-Capybara-3B-V1.9/model-00003-of-00003.safetensors base_ckpt/
+mv Nous-Capybara-3B-V1.9/config.json base_ckpt/
+mv Nous-Capybara-3B-V1.9/configuration_stablelm_epoch.py base_ckpt/
+mv Nous-Capybara-3B-V1.9/modeling_stablelm_epoch.py base_ckpt/
+mv Nous-Capybara-3B-V1.9/model.safetensors.index.json base_ckpt/
 
 rm -r Nous-Capybara-3B-V1.9
 
