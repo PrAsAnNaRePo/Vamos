@@ -12,7 +12,7 @@ cp Nous-Capybara-3B-V1.9/model.safetensors.index.json base_ckpt/
 
 rm -r Nous-Capybara-3B-V1.9
 
-torchrun --nproc_per_node 6 --nnodes 1 --node_rank 0 --master_addr localhost --master_port 6001 pretrain/hf_train.py \
+torchrun --nproc_per_node 2 --nnodes 1 --node_rank 0 --master_addr localhost --master_port 6001 pretrain/hf_train.py \
     --bf16 True \
     --max_len 55 \
     --eval_steps 5000 \
@@ -30,5 +30,5 @@ torchrun --nproc_per_node 6 --nnodes 1 --node_rank 0 --master_addr localhost --m
     --warmup_ratio 0.01 \
     --lr_scheduler_type "cosine" \
     --logging_steps 1 \
-    --report_to "wandb" \
+    --report_to "tensorboard" \
     --deepspeed pretrain/zero2.json
