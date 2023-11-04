@@ -18,7 +18,7 @@ IGNORE_TOKEN_ID = LabelSmoother.ignore_index
 class ModelArguments:
     llm_id: Optional[str] = field(default="NousResearch/Nous-Capybara-3B-V1.9")
     clip_id: Optional[str] = field(default="openai/clip-vit-large-patch14-336")
-    projector_layers: Optional[int] = field(default=8)
+    projector_layers: Optional[int] = field(default=16)
     projector_heads: Optional[int] = field(default=16)
 
 

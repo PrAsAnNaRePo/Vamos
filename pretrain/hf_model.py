@@ -12,7 +12,7 @@ class VamosConfig(PretrainedConfig):
     def __init__(self,
                  llm_id: str = 'NousResearch/Nous-Capybara-3B-V1.9',
                  clip_id: str = 'openai/clip-vit-large-patch14-336',
-                 projector_layers: int = 8,
+                 projector_layers: int = 16,
                  projector_heads: int = 16,
                  img_start_token: int = None,
                  **kwargs
